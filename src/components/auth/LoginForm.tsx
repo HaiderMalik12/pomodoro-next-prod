@@ -84,6 +84,31 @@ export default function LoginForm() {
       <Button type="submit" className="w-full" disabled={isLoading}>
         {isLoading ? "Login Account..." : "Login"}
       </Button>
+
+      {/* Divider */}
+      <div className="flex items-center my-4">
+        <div className="flex-grow border-t border-gray-300"></div>
+        <span className="px-2 text-gray-500 text-sm">or</span>
+        <div className="flex-grow border-t border-gray-300"></div>
+      </div>
+
+      {/* Social Login Buttons */}
+      <div className="flex flex-col space-y-2">
+        <a href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}>
+          <Button type="button" className="w-full bg-red-500 hover:bg-red-600">
+            Login with Google
+          </Button>
+        </a>
+
+        <a href={`${process.env.NEXT_PUBLIC_API_URL}/auth/github`}>
+          <Button
+            type="button"
+            className="w-full bg-gray-800 hover:bg-gray-900"
+          >
+            Login with Github
+          </Button>
+        </a>
+      </div>
     </form>
   );
 }
