@@ -71,22 +71,20 @@ export default function Enable2FA() {
 
         {/* Enable 2FA Button */}
         <div className="flex justify-center">
-          <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-xl shadow transition">
-            Enable 2FA
-          </button>
-        </div>
-
-        {/* Show QR Button */}
-        <div className="flex justify-center">
-          <button className="w-full border border-indigo-600 text-indigo-600 hover:bg-indigo-50 font-medium py-2 px-4 rounded-xl shadow-sm transition">
-            Show QR Code
+          <button
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-xl shadow transition"
+            onClick={generateSecret}
+          >
+            Generate 2FA Secret
           </button>
         </div>
 
         {/* QR Code Display */}
         <div className="flex justify-center">
           <div className="w-40 h-40 bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center rounded-xl">
-            <span className="text-gray-400 text-sm">QR Code Here</span>
+            {qrCode && (
+              <img src={qrCode} alt="2FA QR Code" className="w-32 h-32" />
+            )}
           </div>
         </div>
 
@@ -97,14 +95,19 @@ export default function Enable2FA() {
           </label>
           <input
             type="text"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
             placeholder="123456"
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-gray-900"
           />
         </div>
 
         {/* Confirm Button */}
         <div className="flex justify-center">
-          <button className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-xl shadow transition">
+          <button
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-xl shadow transition"
+            onClick={enable2FA}
+          >
             Confirm Code
           </button>
         </div>
