@@ -1,12 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAuthStore } from "@/lib/store/authStore";
+import { useRouter } from "next/navigation";
 
 const Verify2FA: React.FC = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const router = useRouter();
+  const { setLoggedIn } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,11 +21,30 @@ const Verify2FA: React.FC = () => {
     // Replace with your API call
     try {
       // Example: await verify2FA(code);
-      if (code === "123456") {
-        setSuccess(true);
-      } else {
-        setError("Invalid code. Please try again.");
+      // if (code === "123456") {
+      //   setSuccess(true);
+      // } else {
+      //   setError("Invalid code. Please try again.");
+      // }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/2fa/verify`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify({ code }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to generate 2FA secret");
       }
+      setSuccess(true);
+      setLoggedIn(true);
+      router.push("/dashboard");
     } catch (err) {
       setError("Verification failed. Please try again.");
     } finally {
