@@ -38,9 +38,12 @@ export default function LoginForm() {
     try {
       console.log("account login with data:", data);
       const response = await loginUser(data);
+      console.log("Account login response:", response);
       if (!response.message) {
         const error = await response.json();
         setServerError(error.message || "Failed to create account");
+      } else if (response.twoFaRequired) {
+        router.push("/verify-2fa");
       } else {
         setLoggedIn(true); // Update the auth store state
         //navigate to the dashboard or home page
