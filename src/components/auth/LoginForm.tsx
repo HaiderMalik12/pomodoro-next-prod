@@ -39,7 +39,7 @@ export default function LoginForm() {
       console.log("account login with data:", data);
       const response = await loginUser(data);
       console.log("Account login response:", response);
-      if (!response.message) {
+      if (response.error) {
         const error = await response.json();
         setServerError(error.message || "Failed to create account");
       } else if (response.twoFaRequired) {
